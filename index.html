@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Developing Data Products Project</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Developing Data Products Project">
+  <meta name="author" content="Sarada Bhasker">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Developing Data Products Project</h1>
+    <h2>Predicting MPG of a Vehicle</h2>
+    <p>Sarada Bhasker<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Application Details</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This demo application helps predict the MPG of a vehicle. The prediction algorithm uses the glm train method  available in caret package. The data for prediction algorithm comes from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models) </p>
+
+<p>The following features of a vehicle are used to predict the MPG</p>
+
+<ol>
+<li>The tranmission type (Automatic or Manual)</li>
+<li>Number of Cylinders</li>
+<li>Weight of Car</li>
+<li>HP of Car</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Implementation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The application is implemented using shiny framework and is deployed on shinyapps server on Rstudio. The application can be accessed on the following link
+<a href="https://dataproductproject.shinyapps.io/Project/">https://dataproductproject.shinyapps.io/Project/</a></p>
+
+<pre><code class="r">library(caret)
+data(mtcars)
+head(mtcars, n=1)
+</code></pre>
+
+<pre><code>##           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+## Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4
+</code></pre>
+
+<p>The prediction algorithm has been implemented using glm model. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Regression model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret)
+data(mtcars)
+modFit &lt;- train(mpg~factor(am)+factor(cyl)+wt+hp, data= mtcars, method=&quot;glm&quot;)
+mt1 &lt;- subset(mtcars, select=-c(mpg))
+yhat &lt;- predict(modFit, mt1)
+</code></pre>
+
+<h2>Prediction Function</h2>
+
+<pre><code class="r">predictMileage &lt;- function(am1, cyl1, wt1, hp1){
+p1 &lt;- predict(modFit, newdata=data.frame(am=am1, cyl=cyl1, wt=wt1, hp=hp1))
+ }
+</code></pre>
+
+<p>The values that user enters are passed to the predictMileage Function to get the prediction for mpg  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Plot to show accuracy</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The plot below shows the prediction accuracy of the application.</p>
+
+<h2><img src="assets/fig/mod4-1.png" alt="plot of chunk mod4"> </h2>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Application Details'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Implementation'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Regression model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Plot to show accuracy'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
